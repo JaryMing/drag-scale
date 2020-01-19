@@ -4,7 +4,7 @@
  * @Author: wpp
  * @Date: 2019-11-13 17:58:18
  * @LastEditors  : wpp
- * @LastEditTime : 2020-01-19 11:20:12
+ * @LastEditTime : 2020-01-19 11:48:54
  -->
 <template>
   <div
@@ -387,7 +387,7 @@ export default class MlDragScale extends Vue {
 }
 
 .defalut-box {
-  width: 250px;
-  height: 180px;
+  width: 100%;
+  height: 100%;
 }
 </style>
