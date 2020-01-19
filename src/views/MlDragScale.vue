@@ -4,7 +4,7 @@
  * @Author: wpp
  * @Date: 2019-11-13 17:58:18
  * @LastEditors  : wpp
- * @LastEditTime : 2020-01-19 14:50:41
+ * @LastEditTime : 2020-01-19 15:33:55
  -->
 <template>
   <div
@@ -39,7 +39,7 @@
           'scale-block-show': scaleSwitch,
           'display-block': dragChangePositionBlock,
         },
-        item.show ? '' : 'display-none',
+        !item.show ? 'display-none' : '',
       ]"
       @mousedown.stop="scaleMouseDownFn($event, item.code)"
       v-for="item in scaleBlockArr"
