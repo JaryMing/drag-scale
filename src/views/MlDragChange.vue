@@ -4,7 +4,7 @@
  * @Author: wpp
  * @Date: 2019-11-13 17:58:18
  * @LastEditors  : wpp
- * @LastEditTime : 2020-01-19 15:04:39
+ * @LastEditTime : 2020-01-19 15:26:18
  -->
 <template>
   <div class="ml-drag-change">
@@ -90,7 +90,7 @@ export default class MlDragChange extends Vue {
         item.addEventListener('dragenter', (event: any) => {
           this.ListenerDragenter(event, item);
         });
-      }
+      },
     );
   }
   public dragEnterFn(e: any, enterItem: any) {
@@ -116,7 +116,7 @@ export default class MlDragChange extends Vue {
             }
           }
         }
-      }
+      },
     );
   }
   public dragOverFn(e: any) {
@@ -132,7 +132,7 @@ export default class MlDragChange extends Vue {
         item.removeEventListener('dragenter', (event: any) => {
           this.ListenerDragenter(event, item);
         });
-      }
+      },
     );
     if (this.dragEndLock) {
       this.dragEndLock = false;
@@ -145,7 +145,7 @@ export default class MlDragChange extends Vue {
               ? Number(i)
               : Number(i) + 1,
             0,
-            ...deleteItem
+            ...deleteItem,
           );
           break;
         }
