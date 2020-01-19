@@ -4,12 +4,12 @@
  * @Author: wpp
  * @Date: 2019-11-13 17:58:18
  * @LastEditors  : wpp
- * @LastEditTime : 2020-01-19 11:48:54
+ * @LastEditTime : 2020-01-19 14:50:41
  -->
 <template>
   <div
     ref="dragBox"
-    class="ml-drag-scale"
+    :class="['ml-drag-scale', { hoverDo: !dragChangePositon }]"
     :style="[
       {
         left: resultPosition.left + 'px',
@@ -26,6 +26,7 @@
     @dragend="dragendfn($event)"
     @drop="dropfn($event)"
     @dragover="dropoverfn($event)"
+    @click.stop="handleDragBox"
   >
     <div
       :class="[
@@ -36,6 +37,7 @@
           'bottom-block': item.code === 'bottom',
           'right-block': item.code === 'right',
           'scale-block-show': scaleSwitch,
+          'display-block': dragChangePositionBlock,
         },
         item.show ? '' : 'display-none',
       ]"
@@ -44,7 +46,13 @@
       :key="item.code"
     ></div>
     <div
-      :class="['drag-block', { 'drag-block-show': dragChangePositon }]"
+      :class="[
+        'drag-block',
+        {
+          'drag-block-show': dragChangePositon,
+          'display-block': dragChangePositionBlock,
+        },
+      ]"
       @mouseenter="dragBlockLock = true"
       @mouseleave="dragBlockLock = false"
     ></div>
@@ -80,10 +88,6 @@ export default class MlDragScale extends Vue {
   public initInfo?: any;
 
   public dragBox: any = null;
-  public parentStyle = {
-    width: 0,
-    height: 0,
-  };
   get scaleWidthComputed() {
     if (this.scaleSize.width === 'block') {
       return '100%';
@@ -148,7 +152,7 @@ export default class MlDragScale extends Vue {
   // 拖拽换位置 state
   public dragChangePositon: boolean = false;
   public dragBlockLock: boolean = false;
-
+  public dragChangePositionBlock: boolean = false;
   public mounted() {
     this.$nextTick(() => {
       this.scaleSwitch = this.componentLock.scaleSwitch;
@@ -162,18 +166,16 @@ export default class MlDragScale extends Vue {
         });
       }
       this.dragBox = this.$refs.dragBox;
-
-      this.dragBox.parentNode.style.position = 'relative';
-      this.parentStyle = {
-        width: this.dragBox.parentNode.offsetWidth,
-        height: this.dragBox.parentNode.offsetHeight,
-      };
-
       this.scaleSize.width = this.initInfo.width;
       this.scaleSize.height = this.initInfo.height;
       this.resultPosition.top = this.initInfo.top;
       this.resultPosition.left = this.initInfo.left;
     });
+  }
+  public handleDragBox() {
+    if (this.dragChangePositon) {
+      this.dragChangePositionBlock = !this.dragChangePositionBlock;
+    }
   }
 
   // 拖拽 function
@@ -183,28 +185,21 @@ export default class MlDragScale extends Vue {
     this.dragPositions.l = this.dragBox.offsetLeft;
     this.dragPositions.t = this.dragBox.offsetTop;
     this.dragLock = true;
-    document.body.style.userSelect = 'none';
-    window.onmousemove = this.mouseMoveFn;
-    window.onmouseup = this.dragmouseupfn;
-  }
-  public mouseMoveFn(e: any) {
     if (this.dragLock && this.dragSwitch) {
-      this.dragMouseMoveFn(e);
-    } else if (this.dragChangePositon) {
-      //
-    } else if (!this.dragSwitch || !this.dragLock || !this.dragChangePositon) {
-      return false;
+      document.body.style.userSelect = 'none';
+      window.onmousemove = this.dragMouseMoveFn;
+      window.onmouseup = this.dragmouseupfn;
     }
   }
   public dragMouseMoveFn(e: any) {
-    const boxWidth = this.parentStyle.width;
-    const boxHeight = this.parentStyle.height;
+    const boxWidth = this.dragBox.parentNode.offsetWidth;
+    const boxHeight = this.dragBox.parentNode.offsetHeight;
     const itemWidth = this.dragBox.offsetWidth;
     const itemHeight = this.dragBox.offsetHeight;
     const ml = e.clientX - (this.dragPositions.x - this.dragPositions.l);
     const mt = e.clientY - (this.dragPositions.y - this.dragPositions.t);
     // 水平方向的拖动及拖动限制
-    if (ml > 0 && ml < boxWidth - itemWidth) {
+    if (ml > 0 && ml <= boxWidth - itemWidth) {
       this.resultPosition.left = ml;
     } else if (ml <= 0) {
       this.resultPosition.left = 0;
@@ -212,7 +207,7 @@ export default class MlDragScale extends Vue {
       this.resultPosition.left = boxWidth - itemWidth;
     }
     // 垂直方向的拖动及拖动限制
-    if (mt > 0 && mt < boxHeight - itemHeight) {
+    if (mt > 0 && mt <= boxHeight - itemHeight) {
       this.resultPosition.top = mt;
     } else if (mt <= 0) {
       this.resultPosition.top = 0;
@@ -238,9 +233,6 @@ export default class MlDragScale extends Vue {
     const num = 0;
     this.dragPositions.l = this.dragBox.offsetLeft - num;
     this.dragPositions.t = this.dragBox.offsetTop - num;
-    document.body.style.userSelect = 'none';
-    window.onmouseup = this.scalemouseupfn;
-    window.onmousemove = this.scaleMouseMoveFn;
     switch (type) {
       case 'right':
       case 'left':
@@ -253,13 +245,16 @@ export default class MlDragScale extends Vue {
         this.scleboxSize.height = this.dragBox.offsetHeight;
         break;
     }
-  }
-  public scaleMouseMoveFn(e: any) {
     if (!this.scaleSwitch || !this.scaleLock) {
       return false;
     }
-    const WidthSizeLimit = this.parentStyle.width;
-    const HeightSizeLimit = this.parentStyle.height;
+    document.body.style.userSelect = 'none';
+    window.onmouseup = this.scalemouseupfn;
+    window.onmousemove = this.scaleMouseMoveFn;
+  }
+  public scaleMouseMoveFn(e: any) {
+    const WidthSizeLimit = this.dragBox.parentNode.offsetWidth;
+    const HeightSizeLimit = this.dragBox.parentNode.offsetHeight;
     switch (this.currentBlock) {
       case 'right':
         this.scaleSize.width =
@@ -337,9 +332,6 @@ export default class MlDragScale extends Vue {
     border: 1px solid #333;
     display: none;
   }
-  .display-none {
-    display: none !important;
-  }
   .drag-block {
     position: absolute;
     right: 0;
@@ -376,6 +368,14 @@ export default class MlDragScale extends Vue {
     right: 0;
     cursor: w-resize;
   }
+  .display-none {
+    display: none !important;
+  }
+  .display-block {
+    display: block;
+  }
+}
+.hoverDo {
   &:hover {
     .scale-block-show {
       display: block;

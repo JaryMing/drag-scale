@@ -4,7 +4,7 @@
  * @Author: wpp
  * @Date: 2019-11-13 17:58:18
  * @LastEditors  : wpp
- * @LastEditTime : 2020-01-19 11:14:54
+ * @LastEditTime : 2020-01-19 15:04:39
  -->
 <template>
   <div class="ml-drag-change">
@@ -58,12 +58,17 @@ export default class MlDragChange extends Vue {
     },
   })
   public dataArr!: any[];
-  public initInfo = {
-    width: 'block',
-    height: 150,
-    top: 0,
-    left: 0,
-  };
+  @Prop({
+    default: () => {
+      return {
+        width: 'block',
+        height: 150,
+        top: 0,
+        left: 0,
+      };
+    },
+  })
+  public initInfo: any;
   public dragEndLock: boolean = false;
   public coverItemAttrbuiteIndex: string = '';
   public currentDragI: number = 0;

@@ -4,7 +4,7 @@
  * @Author: wpp
  * @Date: 2019-09-11 09:12:02
  * @LastEditors  : wpp
- * @LastEditTime : 2020-01-14 10:42:48
+ * @LastEditTime : 2020-01-19 12:15:40
  */
 import Vue from 'vue';
 import Router from 'vue-router';
@@ -30,12 +30,12 @@ export default new Router({
       component: () => import(/* webpackChunkName: "drag" */ './views/Drag.vue'),
     },
     {
-      path: '/scale',
-      name: 'scale',
+      path: '/Drag&scale',
+      name: 'Drag&scale',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "scale" */ './views/Scale.vue'),
+      component: () => import(/* webpackChunkName: "scale" */ './views/Drag&scale.vue'),
     },
     {
       path: '/tabs',
