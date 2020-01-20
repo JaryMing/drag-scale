@@ -109,10 +109,8 @@ export default class G2Chart extends Vue {
 
     this.chart.interact('slider', {
       container: 'slider', // DOM id
-      // start: ds.state.start, // 和状态量对应
-      // end: ds.state.end,
-      start: '小明', // 和状态量对应
-      end: '小黑',
+      start: ds.state.start, // 和状态量对应
+      end: ds.state.end,
       data, // 源数据
       xAxis: 'time', // 背景图的横轴对应字段，同时为数据筛选的字段
       yAxis: 'volumn', // 背景图的纵轴对应字段，同时为数据筛选的字段
