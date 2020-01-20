@@ -12,3 +12,4 @@ declare module '*.vue' {
 }
 declare module 'vue-gn-components';
 declare module 'vuedraggable';
+declare module '@antv/data-set';

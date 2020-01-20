@@ -4,7 +4,7 @@
  * @Author: wpp
  * @Date: 2019-09-11 09:12:02
  * @LastEditors  : wpp
- * @LastEditTime : 2020-01-19 12:15:40
+ * @LastEditTime : 2020-01-20 11:11:58
  */
 import Vue from 'vue';
 import Router from 'vue-router';
@@ -76,6 +76,14 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "DragChange" */ './views/DragScale.vue'),
+    },
+    {
+      path: '/g2Chart',
+      name: 'g2Chart',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "g2Chart" */ './views/G2ChartModal/index.vue'),
     },
   ],
 });

@@ -4,7 +4,7 @@
  * @Author: wpp
  * @Date: 2019-09-11 09:12:02
  * @LastEditors  : wpp
- * @LastEditTime : 2020-01-19 12:21:18
+ * @LastEditTime : 2020-01-20 11:12:21
  -->
 <template>
   <div id="app">
@@ -16,7 +16,8 @@
       <router-link to="/mlDragScale">拖拽 & 缩放</router-link> |
       <router-link to="/mlDragChange">拖拽互换位置 & 缩放</router-link> |
       <router-link to="/dragScale">例子</router-link> |
-      <router-link to="/Drag&scale">Drag&Scale</router-link>
+      <router-link to="/Drag&scale">Drag&Scale</router-link> |
+      <router-link to="/g2Chart">G2</router-link>
     </div>
     <router-view />
   </div>
