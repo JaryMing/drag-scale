@@ -4,7 +4,7 @@
  * @Author: wpp
  * @Date: 2019-09-11 09:12:02
  * @LastEditors  : wpp
- * @LastEditTime : 2020-01-20 15:38:30
+ * @LastEditTime : 2020-01-20 16:51:29
  -->
 <template>
   <div class="g2-box">
@@ -120,7 +120,9 @@ export default class G2Chart extends Vue {
           nice: false,
         },
       },
-      onChange: ({ startText, endText }: any) => {
+      onChange: (obj: any) => {
+        console.log(obj);
+        const { startValue, endValue, startText, endText } = obj;
         ds.setState('start', startText);
         ds.setState('end', endText);
         setTimeout(() => {

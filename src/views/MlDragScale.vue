@@ -4,7 +4,7 @@
  * @Author: wpp
  * @Date: 2019-11-13 17:58:18
  * @LastEditors  : wpp
- * @LastEditTime : 2020-01-19 15:33:55
+ * @LastEditTime : 2020-02-07 11:19:26
  -->
 <template>
   <div
@@ -26,7 +26,7 @@
     @dragend="dragendfn($event)"
     @drop="dropfn($event)"
     @dragover="dropoverfn($event)"
-    @click.stop="handleDragBox"
+    @click.stop="handleDragBox($event)"
   >
     <div
       :class="[
@@ -56,7 +56,7 @@
       @mouseenter="dragBlockLock = true"
       @mouseleave="dragBlockLock = false"
     ></div>
-    <slot>
+    <slot >
       <div class="defalut-box"></div>
     </slot>
   </div>
@@ -172,8 +172,8 @@ export default class MlDragScale extends Vue {
       this.resultPosition.left = this.initInfo.left;
     });
   }
-  public handleDragBox() {
-    if (this.dragChangePositon) {
+  public handleDragBox(e: any) {
+    if (this.dragChangePositon && e.target.className === 'drag-change-item') {
       this.dragChangePositionBlock = !this.dragChangePositionBlock;
     }
   }
@@ -331,6 +331,7 @@ export default class MlDragScale extends Vue {
     height: 5px;
     border: 1px solid #333;
     display: none;
+    z-index: 5;
   }
   .drag-block {
     position: absolute;
